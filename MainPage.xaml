@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalculatriceMAUI.MainPage"
+             BackgroundColor="{StaticResource Background}">
+
+    <!-- Layout n1 : ScrollView -> garantit qu'aucun contenu ne deborde ni ne soit coupe
+         si l'ecran est petit ou si l'orientation change (portrait/paysage). -->
+    <ScrollView>
+
+        <!-- Layout n2 : Grid principale -> decoupe la page en deux zones proportionnelles :
+             la zone d'affichage (hauteur automatique) et le clavier (hauteur restante). -->
+        <Grid Padding="16" RowSpacing="16" RowDefinitions="Auto,*">
+
+            <!-- ===================== ZONE D'AFFICHAGE ===================== -->
+            <!-- Layout n3 : Border -> encadre proprement l'ecran de resultat avec des coins
+                 arrondis et une ombre, sans avoir a dessiner un rectangle manuellement. -->
+            <Border Grid.Row="0"
+                    Stroke="Transparent"
+                    BackgroundColor="{StaticResource DisplayBackground}"
+                    Padding="20"
+                    MinimumHeightRequest="150">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+
+                <!-- Layout n4 : VerticalStackLayout -> empile verticalement l'operation en
+                     cours au-dessus du resultat, sans avoir besoin de lignes/colonnes de Grid. -->
+                <VerticalStackLayout Spacing="8" VerticalOptions="End">
+                    <Label x:Name="OperationLabel"
+                           Text=" "
+                           FontSize="22"
+                           TextColor="{StaticResource OperationText}"
+                           HorizontalTextAlignment="End"
+                           LineBreakMode="TailTruncation" />
+
+                    <Label x:Name="ResultLabel"
+                           Text="0"
+                           FontSize="52"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource ScreenText}"
+                           HorizontalTextAlignment="End"
+                           LineBreakMode="TailTruncation" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ===================== CLAVIER ===================== -->
+            <Grid Grid.Row="1"
+                  RowSpacing="12"
+                  ColumnSpacing="12"
+                  RowDefinitions="Auto,*,*,*,*"
+                  ColumnDefinitions="*,*,*,*">
+
+                <!-- Layout n5 : HorizontalStackLayout -> aligne la rangee de fonctions
+                     (AC, effacer, pourcentage, division) sur une seule ligne horizontale. -->
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                                        Spacing="12" HorizontalOptions="Fill">
+                    <Button Text="AC" Style="{StaticResource FunctionButtonStyle}"
+                            Clicked="OnClearAllClicked" HorizontalOptions="FillAndExpand" />
+                    <Button Text="⌫" Style="{StaticResource FunctionButtonStyle}"
+                            Clicked="OnBackspaceClicked" HorizontalOptions="FillAndExpand" />
+                    <Button Text="%" Style="{StaticResource FunctionButtonStyle}"
+                            Clicked="OnPercentClicked" HorizontalOptions="FillAndExpand" />
+                    <Button Text="÷" Style="{StaticResource OperatorButtonStyle}"
+                            Clicked="OnOperatorClicked" HorizontalOptions="FillAndExpand" />
+                </HorizontalStackLayout>
+
+                <!-- Rangee 7 8 9 x -->
+                <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="1" Grid.Column="3" Text="×" Style="{StaticResource OperatorButtonStyle}" Clicked="OnOperatorClicked" />
+
+                <!-- Rangee 4 5 6 - -->
+                <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="2" Grid.Column="3" Text="−" Style="{StaticResource OperatorButtonStyle}" Clicked="OnOperatorClicked" />
+
+                <!-- Rangee 1 2 3 + -->
+                <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource OperatorButtonStyle}" Clicked="OnOperatorClicked" />
+
+                <!-- Rangee +/- 0 . = -->
+                <Button Grid.Row="4" Grid.Column="0" Text="±" Style="{StaticResource FunctionButtonStyle}" Clicked="OnSignClicked" />
+                <Button Grid.Row="4" Grid.Column="1" Text="0" Style="{StaticResource DigitButtonStyle}" Clicked="OnDigitClicked" />
+                <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource DigitButtonStyle}" Clicked="OnDecimalClicked" />
+                <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource EqualsButtonStyle}" Clicked="OnEqualsClicked" />
+
+            </Grid>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
